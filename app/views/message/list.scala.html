@@ -1,0 +1,48 @@
+@* このテンプレートの引数 *@
+@(messageForm: Form[controllers.MessageController.MessageForm], msg: Seq[models.Tables.MessagesRow])(implicit messages: Messages)
+
+@* テンプレートで利用可能なヘルパーをインポート *@
+@import helper._
+
+@main("メッセージ一覧") {
+
+    @form(messageForm("messageId").value.map(x => routes.MessageController.create).getOrElse(routes.MessageController.create), 'class -> "container", 'role -> "form") {
+    <div class="col-xs-12">
+        <filedset>
+            <div class="form-group">
+                <div>
+                    @inputText(messageForm("messageFromName"), '_label -> "送信者", 'size -> 20)
+                </div>
+                <div>
+                    @textarea(messageForm("message"), '_label -> "内容", 'size -> 200)
+                </div>
+                <div>
+                    <input type="submit" value="送信" class="btn btn-success">
+                 </div>
+            </div>
+         </filedset>
+    </div>
+    }
+    <div class="col-xs-12">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>送信者</th>
+                <th>内容</th>
+            </tr>
+            </thead>
+            <tbody>
+            @* メッセージの一覧をループで出力 *@
+            @msg.map { message =>
+            <tr>
+                <td>@message.messageId</td>
+                <td>@message.messageFromName</td>
+                <td><textarea readonly>@message.message</textarea></td>
+            </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+
+}
