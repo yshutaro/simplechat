@@ -7,42 +7,50 @@
 @main("メッセージ一覧") {
 
     @form(messageForm("messageId").value.map(x => routes.MessageController.create).getOrElse(routes.MessageController.create), 'class -> "container", 'role -> "form") {
-    <div class="col-xs-12">
+    <div class="col-md-12 col-xs-12">
         <filedset>
             <div class="form-group">
-                <div>
-                    @inputText(messageForm("messageFromName"), '_label -> "送信者", 'size -> 20)
+                <div class="row">
+                    <div class="col-md-3 col-xs-3">
+                        @inputText(messageForm("messageFromName"), '_label -> "送信者", 'size -> 20)
+                    </div>
+                    <div class="col-md-3 col-xs-3">
+                        @textarea(messageForm("message"), '_label -> "内容", 'size -> 200, 'rows -> 2)
+                    </div>
+                    <div class="col-md-3 col-xs-3">
+                        <input type="submit" value="送信" class="btn btn-success">
+                    </div>
+                    <div class="col-md-3 col-xs-3">
+                    </div>
                 </div>
-                <div>
-                    @textarea(messageForm("message"), '_label -> "内容", 'size -> 200)
-                </div>
-                <div>
-                    <input type="submit" value="送信" class="btn btn-success">
-                 </div>
             </div>
          </filedset>
     </div>
     }
-    <div class="col-xs-12">
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>送信者</th>
-                <th>内容</th>
-            </tr>
-            </thead>
-            <tbody>
-            @* メッセージの一覧をループで出力 *@
-            @msg.map { message =>
-            <tr>
-                <td>@message.messageId</td>
-                <td>@message.messageFromName</td>
-                <td><textarea readonly>@message.message</textarea></td>
-            </tr>
-            }
-            </tbody>
-        </table>
+    <div class="col-md-12 col-xs-12">
+        <div class="col-md-8 col-xs-8">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>送信者</th>
+                    <th>内容</th>
+                    <th>送信日時</thw>
+                </tr>
+                </thead>
+                <tbody>
+                @* メッセージの一覧をループで出力 *@
+                @msg.map { message =>
+                <tr>
+                    <td>@message.messageFromName</td>
+                    <td><textarea readonly>@message.message</textarea></td>
+                    <td>@{message.updateDate.format("yyyy/MM/dd HH:mm:ss")}</td>
+                </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4 col-xs-4">
+        </div>
     </div>
 
 }

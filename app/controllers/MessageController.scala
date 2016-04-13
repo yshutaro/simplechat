@@ -1,5 +1,9 @@
 package controllers
 
+import java.util.Calendar
+import java.sql.{  Date => SDate }
+import java.sql.Timestamp
+
 import play.api.mvc._
 import play.api.data._
 import play.api.data.Forms._
@@ -40,8 +44,12 @@ class MessageController @Inject()(val dbConfigProvider: DatabaseConfigProvider,
       },
       // OKの場合
       form  => {
+        //val now = new SDate(Calendar.getInstance().getTime())
+        //val timestamp = new Timestamp(System.currentTimeMillis())
+        val now = new Timestamp(Calendar.getInstance().getTimeInMillis())
         // メッセージを登録
-        val message = MessagesRow(0, form.messageFromName, form.message)
+        //val now = new SDate(Calendar.getInstance().getTimeInMillis())
+        val message = MessagesRow(0, form.messageFromName, form.message,now)
         db.run(Messages += message).map { _ =>
           // 一覧画面へリダイレクト
           Redirect(routes.MessageController.list)
