@@ -1,0 +1,11 @@
+@* このテンプレートの引数 *@
+@(loginForm: Form[controllers.AuthController.LoginForm])(implicit messages: Messages)
+
+@import helper._
+
+@form(routes.AuthController.authenticate) {
+@inputText(loginForm("username"))
+@inputPassword(loginForm("password"))
+<br>
+<button id="submit" type="submit" value="Submit" >Login</button>
+}
